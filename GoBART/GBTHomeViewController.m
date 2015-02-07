@@ -7,7 +7,7 @@
 //
 
 #import "GBTHomeViewController.h"
-
+#import "GBTNetworkingService.h"
 @interface GBTHomeViewController ()
 
 @end
@@ -16,12 +16,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+    GBTNetworkingService *sharedService = [GBTNetworkingService sharedNetworkingService];
+    [sharedService getRoutesWithOrig:@"ASHB" dest:@"CIVC"];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 
 @end

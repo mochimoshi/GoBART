@@ -8,8 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface GBTHomeViewController : UIViewController
-
+@interface GBTHomeViewController : UIViewController<NSXMLParserDelegate>
 
 @end
 
