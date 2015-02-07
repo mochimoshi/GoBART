@@ -10,10 +10,10 @@
 
 #import <AFNetworking/AFNetworking.h>
 
-@interface GBTNetworkingService ()
+@interface GBTNetworkingService ()<NSXMLParserDelegate>
 
-@property (strong, nonatomic) NSMutableArray *XMLTripArray;
-@property (strong, nonatomic) NSMutableDictionary *XMLAttributeDictionary;
+@property (strong, nonatomic) NSMutableArray *xmlTripArray;
+@property (strong, nonatomic) NSMutableDictionary *xmlAttributeDictionary;
 @property (strong, nonatomic) NSMutableDictionary *response;
 @property (strong, nonatomic) NSString *elementName;
 @property (strong, nonatomic) NSMutableString *outstring;
@@ -22,7 +22,12 @@
 
 @implementation GBTNetworkingService
 
-static NSString *kRoutesBaseURL = @"http://api.bart.gov/api/sched.aspx?cmd=arrive&date=now&key=MW9S-E7SL-26DU-VV8V";
+static NSString *kPublicKey = @"MW9S-E7SL-26DU-VV8V";
+
+static NSString *kArriveCommand = @"arrive";
+static NSString *kDepartCommand = @"depart";
+
+static NSString *kRoutesBaseURL = @"http://api.bart.gov/api/sched.aspx?cmd=arrive&date=now";
 
 + (instancetype)sharedNetworkingService {
     
@@ -36,12 +41,13 @@ static NSString *kRoutesBaseURL = @"http://api.bart.gov/api/sched.aspx?cmd=arriv
     return sharedInstance;
 }
 
+//
 - (void)getRoutesWithOrig:(NSString *)orig dest:(NSString *)dest {
-    NSString *routeURL = [NSString stringWithFormat:@"%@%@%@%@%@", kRoutesBaseURL, @"&orig=", orig, @"&dest=", dest];
-    NSURL *url = [NSURL URLWithString:routeURL];
+    NSURL *url = [NSURL URLWithString:kRoutesBaseURL];
+    url = [url URLByAppendingPathComponent:[NSString stringWithFormat:@"cmd=%@&orig=%@&dest=%@&date=%@", kArriveCommand, orig, dest, @"now"]];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     if (!request) {
-        NSLog(@"nil");
+        NSLog(@"Malformed request");
     }
 
     AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
@@ -56,13 +62,20 @@ static NSString *kRoutesBaseURL = @"http://api.bart.gov/api/sched.aspx?cmd=arriv
         XMLParser.delegate = self;
         [XMLParser parse];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        // Error
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error!", nil)
+                                                        message:NSLocalizedString(@"Error while trying to reach server. Please try again later.", nil)
+                                                       delegate:nil
+                                              cancelButtonTitle:NSLocalizedString(@"Okay", nil)
+                                              otherButtonTitles:nil];
+        [alert show];
     }];
     [operation start];
 }
 
 - (void)parserDidStartDocument:(NSXMLParser *)parser {
-    self.XMLTripArray = [NSMutableArray array];
-    self.XMLAttributeDictionary = [NSMutableDictionary dictionary];
+    self.xmlTripArray = [NSMutableArray array];
+    self.xmlAttributeDictionary = [NSMutableDictionary dictionary];
 }
 
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict {
@@ -70,7 +83,8 @@ static NSString *kRoutesBaseURL = @"http://api.bart.gov/api/sched.aspx?cmd=arriv
     self.elementName = qName;
     if ([qName isEqualToString:@"trip"]) {
         NSLog(@"%@: departure:%@ arrival %@", qName, attributeDict[@"origTimeMin"], attributeDict[@"destTimeMin"]);
-    } else if ([qName isEqualToString:@"leg"]) {
+    }
+    else if ([qName isEqualToString:@"leg"]) {
     }
 }
 
