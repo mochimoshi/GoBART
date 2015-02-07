@@ -6,13 +6,13 @@
 //  Copyright (c) 2015 Chromatiqa. All rights reserved.
 //
 
-#import "ViewController.h"
+#import "GBTHomeViewController.h"
 
-@interface ViewController ()
+@interface GBTHomeViewController ()
 
 @end
 
-@implementation ViewController
+@implementation GBTHomeViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
