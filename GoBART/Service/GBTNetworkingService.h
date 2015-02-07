@@ -15,6 +15,7 @@ typedef void (^RouteFailureBlock)(NSError *error);
 
 + (instancetype)sharedNetworkingService;
 
-- (void)getRoutesWithOrig:(NSString *)orig dest:(NSString *)dest;
+- (void)getRoutesWithOrig:(NSString *)orig atDest:(NSString *)dest atTime:(NSDate *)date withCommand:(NSString *)command {
+
 
 @end
