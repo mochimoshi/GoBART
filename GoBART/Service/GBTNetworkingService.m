@@ -97,7 +97,7 @@ static NSString *kRoutesBaseURL = @"http://api.bart.gov/api/sched.aspx?";
         trip.tripDepartStation = attributeDict[@"origin"];
         trip.tripArrivalStation = attributeDict[@"destination"];
         trip.tripLegsArray = [NSMutableArray array];
-        trip.fare = attributeDict[@"fare"];
+        trip.tripFare = attributeDict[@"fare"];
         [self.xmlTripArray addObject:trip];
         self.currTrip = trip;
     }
