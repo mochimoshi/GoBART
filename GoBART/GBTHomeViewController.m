@@ -7,8 +7,12 @@
 //
 
 #import "GBTHomeViewController.h"
+
 #import "GBTNetworkingService.h"
-@interface GBTHomeViewController ()
+
+@interface GBTHomeViewController ()<UITextFieldDelegate>
+@property (weak, nonatomic) IBOutlet UITextField *fromTextField;
+@property (weak, nonatomic) IBOutlet UITextField *destTextField;
 
 @end
 
@@ -16,8 +20,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self.fromTextField setText:@"FRMT"];
+    [self.destTextField setText:@"16TH"];
+}
+
+- (IBAction)route:(id)sender {
+    [self resignFirstResponder];
     GBTNetworkingService *sharedService = [GBTNetworkingService sharedNetworkingService];
-    [sharedService getRoutesWithOrig:@"ASHB" dest:@"CIVC"];
+    [sharedService getRoutesWithOrig:self.fromTextField.text dest:self.destTextField.text];
 }
 
 - (void)didReceiveMemoryWarning {

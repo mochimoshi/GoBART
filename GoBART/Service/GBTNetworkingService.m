@@ -27,7 +27,7 @@ static NSString *kPublicKey = @"MW9S-E7SL-26DU-VV8V";
 static NSString *kArriveCommand = @"arrive";
 static NSString *kDepartCommand = @"depart";
 
-static NSString *kRoutesBaseURL = @"http://api.bart.gov/api/sched.aspx?cmd=arrive&date=now";
+static NSString *kRoutesBaseURL = @"http://api.bart.gov/api/sched.aspx";
 
 + (instancetype)sharedNetworkingService {
     
@@ -43,8 +43,7 @@ static NSString *kRoutesBaseURL = @"http://api.bart.gov/api/sched.aspx?cmd=arriv
 
 //
 - (void)getRoutesWithOrig:(NSString *)orig dest:(NSString *)dest {
-    NSURL *url = [NSURL URLWithString:kRoutesBaseURL];
-    url = [url URLByAppendingPathComponent:[NSString stringWithFormat:@"cmd=%@&orig=%@&dest=%@&date=%@", kArriveCommand, orig, dest, @"now"]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@?cmd=%@&orig=%@&dest=%@&date=%@&key=%@",kRoutesBaseURL,kArriveCommand, orig, dest, @"now", kPublicKey]];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     if (!request) {
         NSLog(@"Malformed request");
@@ -63,6 +62,7 @@ static NSString *kRoutesBaseURL = @"http://api.bart.gov/api/sched.aspx?cmd=arriv
         [XMLParser parse];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         // Error
+        NSLog(@"Error with %@: %@", [url absoluteString], error.localizedDescription);
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error!", nil)
                                                         message:NSLocalizedString(@"Error while trying to reach server. Please try again later.", nil)
                                                        delegate:nil
