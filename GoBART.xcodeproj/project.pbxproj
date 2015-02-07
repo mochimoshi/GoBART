@@ -150,11 +150,10 @@
 			children = (
 				A9CA985E1A85E89B00C133DA /* Models */,
 				A9CA985A1A85DA4100C133DA /* Service */,
+				FA9B73C31A860B83005B804F /* UI */,
+				FA9B73A71A85A524005B804F /* Main.storyboard */,
 				FA9B73A11A85A524005B804F /* AppDelegate.h */,
 				FA9B73A21A85A524005B804F /* AppDelegate.m */,
-				FA9B73A41A85A524005B804F /* GBTHomeViewController.h */,
-				FA9B73A51A85A524005B804F /* GBTHomeViewController.m */,
-				FA9B73A71A85A524005B804F /* Main.storyboard */,
 				FA9B73AA1A85A524005B804F /* Images.xcassets */,
 				FA9B73AC1A85A524005B804F /* LaunchScreen.xib */,
 				FA9B739D1A85A524005B804F /* Supporting Files */,
@@ -186,6 +185,15 @@
 				FA9B73B81A85A524005B804F /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		FA9B73C31A860B83005B804F /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				FA9B73A41A85A524005B804F /* GBTHomeViewController.h */,
+				FA9B73A51A85A524005B804F /* GBTHomeViewController.m */,
+			);
+			name = UI;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

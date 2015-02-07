@@ -87,6 +87,7 @@ static NSString *kTrainsBaseURL = @"http://api.bart.gov/api/etd.aspx?";
         [XMLParser parse];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         // Error
+        NSLog(@"Error with %@: %@", [url absoluteString], error.localizedDescription);
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error!", nil)
                                                         message:NSLocalizedString(@"Error while trying to reach server. Please try again later.", nil)
                                                        delegate:nil
