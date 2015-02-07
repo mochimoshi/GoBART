@@ -10,4 +10,7 @@
 
 @interface GBTLine : NSObject
 
+@property (strong, nonatomic) NSString *line;
+@property (strong, nonatomic) NSString *trainHeadStation;
+
 @end
