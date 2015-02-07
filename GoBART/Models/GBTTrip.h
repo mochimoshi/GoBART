@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "GBTLeg.h"
 
 @interface GBTTrip : NSObject
 
@@ -14,5 +15,7 @@
 @property (strong, nonatomic) NSString *tripDepartStation;
 @property (strong, nonatomic) NSString *tripArrivalTime;
 @property (strong, nonatomic) NSString *tripArrivalStation;
+@property (strong, nonatomic) NSMutableArray *tripLegsArray;
+@property (strong, nonatomic) NSString *tripFare;
 
 @end
