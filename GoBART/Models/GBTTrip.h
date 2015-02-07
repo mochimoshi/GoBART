@@ -10,4 +10,9 @@
 
 @interface GBTTrip : NSObject
 
+@property (strong, nonatomic) NSString *origTimeMin;
+@property (strong, nonatomic) NSString *origin;
+@property (strong, nonatomic) NSString *destTimeMin;
+@property (strong, nonatomic) NSString *destination;
+
 @end
