@@ -10,4 +10,12 @@
 
 @interface GBTLeg : NSObject
 
+@property (strong, nonatomic) NSString *line;
+@property (strong, nonatomic) NSString *origTimeMin;
+@property (strong, nonatomic) NSString *origTimeDate;
+@property (strong, nonatomic) NSString *destTimeMin;
+@property (strong, nonatomic) NSString *destTimeDate;
+@property (strong, nonatomic) NSString *departStation;
+@property (strong, nonatomic) NSString *arriveStation;
+
 @end

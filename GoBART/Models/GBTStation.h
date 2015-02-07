@@ -7,7 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <MapKit/MapKit.h>
 
 @interface GBTStation : NSObject
+
+@property (assign, nonatomic) CLLocationCoordinate2D mapLocation;
+@property (strong, nonatomic) NSString *stationFullName;
+@property (strong, nonatomic) NSString *stationAbbreviatedName;
 
 @end
