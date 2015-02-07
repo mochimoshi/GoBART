@@ -91,25 +91,12 @@ static NSString *kRoutesBaseURL = @"http://api.bart.gov/api/sched.aspx?";
     
     self.elementName = qName;
     if ([qName isEqualToString:@"trip"]) {
-        GBTTrip *trip = [[GBTTrip alloc] init];
-        trip.tripDepartTime = attributeDict[@"origTimeMin"];
-        trip.tripArrivalStation = attributeDict[@"destTimeMin"];
-        trip.tripDepartStation = attributeDict[@"origin"];
-        trip.tripArrivalStation = attributeDict[@"destination"];
-        trip.tripLegsArray = [NSMutableArray array];
-        trip.tripFare = attributeDict[@"fare"];
+        GBTTrip *trip = [[GBTTrip alloc] initTripWithAttributes:attributeDict];
         [self.xmlTripArray addObject:trip];
         self.currTrip = trip;
     }
     else if ([qName isEqualToString:@"leg"]) {
-        GBTLeg *leg = [[GBTLeg alloc] init];
-        leg.line = attributeDict[@"line"];
-        leg.origTimeMin = attributeDict[@"origTimeMin"];
-        leg.origTimeDate = attributeDict[@"origTimeDate"];
-        leg.destTimeMin = attributeDict[@"destTimeMin"];
-        leg.destTimeDate = attributeDict[@"destTimeDate"];
-        leg.departStation = attributeDict[@"departStation"];
-        leg.arriveStation = attributeDict[@"departStation"];
+        GBTLeg *leg = [[GBTLeg alloc] initLegWithAttributes:attributeDict];
         [self.currTrip.tripLegsArray addObject:leg];
     }
 }
