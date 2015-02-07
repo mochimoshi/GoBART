@@ -45,15 +45,16 @@ static NSString *kRoutesBaseURL = @"http://api.bart.gov/api/sched.aspx?";
 }
 
 //
-- (void)getRoutesWithOrig:(NSString *)orig dest:(NSString *)dest atTime:(NSDate *)date withCommand:(NSString *)command {
+- (void)getRoutesWithOrig:(NSString *)orig atDest:(NSString *)dest atTime:(NSDate *)date withCommand:(NSString *)command {
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"MM/dd/yyyy"];
     NSString *dateQuery = [formatter stringFromDate:date];
     [formatter setDateFormat:@"HH:mm+a"];
     NSString *timeQuery = [formatter stringFromDate:date];
+
+    NSString *routesURL = [NSString stringWithFormat:@"%@cmd=%@&key=%@&orig=%@&dest=%@&date=%@&time=%@", kRoutesBaseURL, command, kPublicKey, orig, dest, dateQuery, timeQuery];
+    NSURL *url = [NSURL URLWithString:routesURL];
     
-    NSURL *url = [NSURL URLWithString:kRoutesBaseURL];
-    url = [url URLByAppendingPathComponent:[NSString stringWithFormat:@"cmd=%@&orig=%@&dest=%@&date=%@&time=%@", command, orig, dest, dateQuery, timeQuery]];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     if (!request) {
         NSLog(@"Malformed request");
@@ -64,6 +65,8 @@ static NSString *kRoutesBaseURL = @"http://api.bart.gov/api/sched.aspx?";
     if (!operation.responseSerializer) {
         NSLog(@"nil");
     }
+    
+    NSLog(@"%@", operation);
 
     [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSXMLParser *XMLParser = (NSXMLParser *)responseObject;
@@ -107,13 +110,10 @@ static NSString *kRoutesBaseURL = @"http://api.bart.gov/api/sched.aspx?";
 }
 
 - (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName {
-    if ([qName isEqualToString:@"schedule"]) {
-        
-    }
 }
 
 - (void)parserDidEndDocument:(NSXMLParser *)parser {
-    return;
+    NSLog(@"xmlTripArray: %@", self.xmlTripArray);
 }
 
 @end

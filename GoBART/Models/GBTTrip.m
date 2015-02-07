@@ -19,6 +19,7 @@
         self.tripArrivalStation = attributeDict[@"destination"];
         self.tripLegsArray = [NSMutableArray array];
         self.tripFare = attributeDict[@"fare"];
+        //NSLog(@"%@", self.tripDepartStation);
     }
     return self;
 }

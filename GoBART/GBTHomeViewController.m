@@ -17,7 +17,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     GBTNetworkingService *sharedService = [GBTNetworkingService sharedNetworkingService];
-    [sharedService getRoutesWithOrig:@"ASHB" dest:@"CIVC"];
+    NSDate *date = [NSDate date];
+    NSString *command = @"arrive";
+    [sharedService getRoutesWithOrig:@"ASHB" atDest:@"CIVC" atTime:date withCommand:command];
 }
 
 - (void)didReceiveMemoryWarning {
