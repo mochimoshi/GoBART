@@ -10,4 +10,17 @@
 
 @implementation GBTTrip
 
+- (instancetype)initTripWithAttributes:(NSDictionary *)attributeDict {
+    self = [super init];
+    if (self) {
+        self.tripDepartTime = attributeDict[@"origTimeMin"];
+        self.tripArrivalStation = attributeDict[@"destTimeMin"];
+        self.tripDepartStation = attributeDict[@"origin"];
+        self.tripArrivalStation = attributeDict[@"destination"];
+        self.tripLegsArray = [NSMutableArray array];
+        self.tripFare = attributeDict[@"fare"];
+    }
+    return self;
+}
+
 @end

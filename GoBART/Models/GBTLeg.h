@@ -18,4 +18,6 @@
 @property (strong, nonatomic) NSString *departStation;
 @property (strong, nonatomic) NSString *arriveStation;
 
+- (instancetype)initLegWithAttributes:(NSDictionary *)attributeDict;
+
 @end

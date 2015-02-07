@@ -18,4 +18,6 @@
 @property (strong, nonatomic) NSMutableArray *tripLegsArray;
 @property (strong, nonatomic) NSString *tripFare;
 
+- (instancetype)initTripWithAttributes:(NSDictionary *)attributeDict;
+
 @end

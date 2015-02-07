@@ -11,7 +11,7 @@
 typedef void (^RouteSuccessBlock)(id responseObject);
 typedef void (^RouteFailureBlock)(NSError *error);
 
-@interface GBTNetworkingService : NSObject
+@interface GBTNetworkingService : NSObject<NSXMLParserDelegate>
 
 + (instancetype)sharedNetworkingService;
 
