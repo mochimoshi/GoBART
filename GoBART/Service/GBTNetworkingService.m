@@ -29,8 +29,10 @@ static NSString *kPublicKey = @"MW9S-E7SL-26DU-VV8V";
 
 static NSString *kArriveCommand = @"arrive";
 static NSString *kDepartCommand = @"depart";
+static NSString *kEtdCommand = @"etd";
 
 static NSString *kRoutesBaseURL = @"http://api.bart.gov/api/sched.aspx?";
+static NSString *kTrainsBaseURL = @"http://api.bart.gov/api/etd.aspx?";
 
 + (instancetype)sharedNetworkingService {
     
@@ -55,19 +57,29 @@ static NSString *kRoutesBaseURL = @"http://api.bart.gov/api/sched.aspx?";
     NSString *routesURL = [NSString stringWithFormat:@"%@cmd=%@&key=%@&orig=%@&dest=%@&date=%@&time=%@", kRoutesBaseURL, command, kPublicKey, orig, dest, dateQuery, timeQuery];
     NSURL *url = [NSURL URLWithString:routesURL];
     
+    NSURL *url = [NSURL URLWithString:kRoutesBaseURL];
+    url = [url URLByAppendingPathComponent:[NSString stringWithFormat:@"cmd=%@&orig=%@&dest=%@&date=%@&time=%@", command, orig, dest, dateQuery, timeQuery]];
+    [self getRequestWithURL:url];
+}
+
+- (void)getTrainsWithStation:(NSString *)station {
+    NSURL *url = [NSURL URLWithString:kTrainsBaseURL];
+    url = [url URLByAppendingPathComponent:[NSString stringWithFormat:@"cmd=%@&orig=%@&key=%@", kEtdCommand, station, kPublicKey]];
+    [self getRequestWithURL:url];
+}
+
+- (void)getRequestWithURL:(NSURL *)url {
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     if (!request) {
         NSLog(@"Malformed request");
     }
-
+    
     AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
     operation.responseSerializer = [AFXMLParserResponseSerializer serializer];
     if (!operation.responseSerializer) {
         NSLog(@"nil");
     }
     
-    NSLog(@"%@", operation);
-
     [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSXMLParser *XMLParser = (NSXMLParser *)responseObject;
         [XMLParser setShouldProcessNamespaces:YES];
