@@ -31,8 +31,8 @@ static NSString *kArriveCommand = @"arrive";
 static NSString *kDepartCommand = @"depart";
 static NSString *kEtdCommand = @"etd";
 
-static NSString *kRoutesBaseURL = @"http://api.bart.gov/api/sched.aspx?";
-static NSString *kTrainsBaseURL = @"http://api.bart.gov/api/etd.aspx?";
+static NSString *kRoutesBaseURL = @"http://api.bart.gov/api/sched.aspx";
+static NSString *kTrainsBaseURL = @"http://api.bart.gov/api/etd.aspx";
 
 + (instancetype)sharedNetworkingService {
     
@@ -49,16 +49,16 @@ static NSString *kTrainsBaseURL = @"http://api.bart.gov/api/etd.aspx?";
 //
 - (void)getRoutesWithOrig:(NSString *)orig atDest:(NSString *)dest atTime:(NSDate *)date withCommand:(NSString *)command {
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"]];
     [formatter setDateFormat:@"MM/dd/yyyy"];
     NSString *dateQuery = [formatter stringFromDate:date];
     [formatter setDateFormat:@"HH:mm+a"];
     NSString *timeQuery = [formatter stringFromDate:date];
 
-    NSString *routesURL = [NSString stringWithFormat:@"%@cmd=%@&key=%@&orig=%@&dest=%@&date=%@&time=%@", kRoutesBaseURL, command, kPublicKey, orig, dest, dateQuery, timeQuery];
+    NSString *routesURL = [NSString stringWithFormat:@"%@?cmd=%@&key=%@&orig=%@&dest=%@&date=%@&time=%@", kRoutesBaseURL, command, kPublicKey, orig, dest, dateQuery, timeQuery];
+    NSLog(@"%@", routesURL);
     NSURL *url = [NSURL URLWithString:routesURL];
-    
-    NSURL *url = [NSURL URLWithString:kRoutesBaseURL];
-    url = [url URLByAppendingPathComponent:[NSString stringWithFormat:@"cmd=%@&orig=%@&dest=%@&date=%@&time=%@", command, orig, dest, dateQuery, timeQuery]];
+
     [self getRequestWithURL:url];
 }
 

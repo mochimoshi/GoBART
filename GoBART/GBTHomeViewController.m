@@ -27,7 +27,10 @@
 - (IBAction)route:(id)sender {
     [self resignFirstResponder];
     GBTNetworkingService *sharedService = [GBTNetworkingService sharedNetworkingService];
-    [sharedService getRoutesWithOrig:self.fromTextField.text dest:self.destTextField.text];
+    [sharedService getRoutesWithOrig:self.fromTextField.text
+                              atDest:self.destTextField.text
+                              atTime:[NSDate date]
+                         withCommand:@"arrive"];
 }
 
 - (void)didReceiveMemoryWarning {
